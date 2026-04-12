@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Viscera Revenue — We help businesses scale revenue with data-driven strategies, social media management, website development, and performance marketing.">
+    <meta name="keywords" content="business scaling, revenue growth, digital marketing, social media management, website development">
+    <meta name="author" content="Viscera Revenue">
+    <title>Viscera Revenue — Scale Your Business</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="loading">
+
+    <!-- Global Scaling Background -->
+    <div class="global-bg" id="globalBg"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-inner">
+            <div class="loader-logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <div class="loader-line"></div>
+            <span class="loader-text">Viscera Revenue</span>
+        </div>
+    </div>
+
+    <!-- ===================== AUTH MODAL ===================== -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-modal" id="authModal">
+            <button class="auth-close" id="authClose" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <!-- Sign In -->
+            <div class="auth-panel" id="signInPanel">
+                <div class="auth-header">
+                    <span class="auth-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                    </span>
+                    <h2 class="auth-title">Welcome Back</h2>
+                    <p class="auth-subtitle">Sign in to your Viscera Revenue account</p>
+                </div>
+                <form id="signInFormEl" class="auth-fields">
+                    <div class="form-group">
+                        <label class="form-label" for="signin-email">Email Address</label>
+                        <input type="email" id="signin-email" class="form-input" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signin-password">Password</label>
+                        <input type="password" id="signin-password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">
+                        Sign In
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+                <p class="auth-switch">Don't have an account? <a href="#" id="switchToSignUp">Create one</a></p>
+            </div>
+
+            <!-- Sign Up -->
+            <div class="auth-panel hidden" id="signUpPanel">
+                <div class="auth-header">
+                    <span class="auth-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                    </span>
+                    <h2 class="auth-title">Get Started</h2>
+                    <p class="auth-subtitle">Create your Viscera Revenue account</p>
+                </div>
+                <form id="signUpFormEl" class="auth-fields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="signup-fname">First Name</label>
+                            <input type="text" id="signup-fname" class="form-input" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="signup-lname">Last Name</label>
+                            <input type="text" id="signup-lname" class="form-input" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-email">Email Address</label>
+                        <input type="email" id="signup-email" class="form-input" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-phone">Phone Number</label>
+                        <input type="tel" id="signup-phone" class="form-input" placeholder="+91 60050 27331">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-password">Password</label>
+                        <input type="password" id="signup-password" class="form-input" placeholder="Create a strong password" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">
+                        Create Account
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="#" id="switchToSignIn">Sign in</a></p>
+            </div>
+
+            <!-- Auth Success -->
+            <div class="auth-panel auth-success-panel hidden" id="authSuccessPanel">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+                <h3 id="authSuccessTitle">Success!</h3>
+                <p id="authSuccessMsg">Your information has been sent to our team.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== JOIN TEAM MODAL ===================== -->
+    <div class="auth-overlay" id="joinOverlay">
+        <div class="auth-modal join-modal" id="joinModal">
+            <button class="auth-close" id="joinClose" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="auth-panel" id="joinFormPanel">
+                <div class="auth-header">
+                    <span class="auth-icon join-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <h2 class="auth-title">Join Our Team</h2>
+                    <p class="auth-subtitle">We're always looking for passionate people to grow with us</p>
+                </div>
+                <form id="joinFormEl" class="auth-fields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="join-name">Full Name</label>
+                            <input type="text" id="join-name" class="form-input" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="join-email">Email</label>
+                            <input type="email" id="join-email" class="form-input" placeholder="you@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="join-phone">Phone Number</label>
+                        <input type="tel" id="join-phone" class="form-input" placeholder="+91 60050 27331" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="join-role">Role Interested In</label>
+                        <select id="join-role" class="form-input form-select" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="Social Media Manager">Social Media Manager</option>
+                            <option value="Web Developer">Web Developer</option>
+                            <option value="Content Creator">Content Creator</option>
+                            <option value="Graphic Designer">Graphic Designer</option>
+                            <option value="Sales Executive">Sales Executive</option>
+                            <option value="Marketing Strategist">Marketing Strategist</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="join-experience">Experience & Skills</label>
+                        <textarea id="join-experience" class="form-input form-textarea" placeholder="Tell us about your experience and why you want to join..." rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="join-portfolio">Portfolio / LinkedIn (optional)</label>
+                        <input type="url" id="join-portfolio" class="form-input" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">
+                        Submit Application
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+            </div>
+            <div class="auth-panel auth-success-panel hidden" id="joinSuccessPanel">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+                <h3>Application Sent!</h3>
+                <p>We'll review your application and get back to you soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== NAVIGATION ===================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="navLogo">
+                <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+                Viscera Revenue
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#insights" class="nav-link">Insights</a>
+                <a href="#process" class="nav-link">Process</a>
+                <a href="#results" class="nav-link">Results</a>
+                <a href="#join" class="nav-link">Join Team</a>
+                <a href="#" class="nav-link nav-link--auth" id="navSignIn">Sign In</a>
+                <a href="#contact" class="nav-link nav-link--cta">Get Started</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-grain"></div>
+            <div class="hero-gradient"></div>
+            <div class="hero-orb hero-orb--1"></div>
+            <div class="hero-orb hero-orb--2"></div>
+            <!-- Floating geometric shapes -->
+            <div class="hero-shape hero-shape--1"></div>
+            <div class="hero-shape hero-shape--2"></div>
+            <div class="hero-shape hero-shape--3"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Trusted by 50+ Indian businesses
+            </div>
+            <h1 class="hero-title">
+                <span class="reveal-line"><span>Scale Your</span></span>
+                <span class="reveal-line"><span>Business <em class="hero-title--accent">Revenue</em></span></span>
+                <span class="reveal-line"><span>Effortlessly</span></span>
+            </h1>
+            <p class="hero-subtitle">
+                We combine data-driven strategies with creative excellence to help local businesses grow their revenue, build their brand, and dominate their market.
+            </p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn--primary">
+                    Start Growing
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#" class="btn btn--ghost" id="heroSignUp">Create Account</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div><span class="stat-number" data-target="50">0</span><span class="stat-suffix">+</span></div>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <div><span class="stat-number" data-target="200">0</span><span class="stat-suffix">%</span></div>
+                    <span class="stat-label">Avg. Revenue Growth</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <div><span class="stat-number" data-target="3">0</span><span class="stat-suffix">M+</span></div>
+                    <span class="stat-label">Ad Impressions Delivered</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="reveal">
+                    <span class="section-tag">Who We Are</span>
+                    <h2 class="section-title">We build brands that <em>people remember</em></h2>
+                </div>
+                <div>
+                    <p class="about-text reveal">
+                        Viscera Revenue is a performance-first digital growth agency built for ambitious Indian businesses. We don't just run campaigns — we engineer revenue systems that deliver measurable, scalable results.
+                    </p>
+                    <p class="about-text reveal">
+                        From local chai shops to fast-growing D2C brands, we've helped businesses across India unlock their true growth potential through strategic social media management, high-converting websites, and precision-targeted advertising.
+                    </p>
+                    <div class="about-highlights reveal">
+                        <div class="highlight">
+                            <span class="highlight-number">5+</span>
+                            <span class="highlight-label">Years Experience</span>
+                        </div>
+                        <div class="highlight">
+                            <span class="highlight-number">15+</span>
+                            <span class="highlight-label">Industries Served</span>
+                        </div>
+                        <div class="highlight">
+                            <span class="highlight-number">₹2Cr+</span>
+                            <span class="highlight-label">Revenue Generated</span>
+                        </div>
+                    </div>
+                    <div class="about-cta reveal">
+                        <a href="#contact" class="text-link">
+                            Let's talk about your growth
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="section" id="services">
+        <div class="container">
+            <span class="section-tag reveal">What We Do</span>
+            <h2 class="section-title reveal">Services designed to <em>multiply</em> your revenue</h2>
+            <div class="services-grid reveal-stagger">
+                <div class="service-card reveal">
+                    <span class="service-number">01</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    </div>
+                    <h3 class="service-title">Social Media Management</h3>
+                    <p class="service-desc">End-to-end management of your social presence. Content creation, scheduling, engagement, and growth — all handled by experts who understand your audience.</p>
+                </div>
+                <div class="service-card reveal">
+                    <span class="service-number">02</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                    </div>
+                    <h3 class="service-title">Website Development</h3>
+                    <p class="service-desc">Beautiful, fast, and conversion-optimized websites that turn visitors into paying customers. Built with modern technologies and designed to impress.</p>
+                </div>
+                <div class="service-card reveal">
+                    <span class="service-number">03</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3 class="service-title">Performance Marketing</h3>
+                    <p class="service-desc">Data-driven ad campaigns on Meta, Google, and YouTube that maximize ROI. Every rupee spent is tracked, optimized, and accounted for.</p>
+                </div>
+                <div class="service-card reveal">
+                    <span class="service-number">04</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                    </div>
+                    <h3 class="service-title">Brand Identity Design</h3>
+                    <p class="service-desc">Craft a visual identity that resonates with your audience. Logo design, brand guidelines, packaging, and more — all cohesive and memorable.</p>
+                </div>
+                <div class="service-card reveal">
+                    <span class="service-number">05</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <h3 class="service-title">Content Strategy</h3>
+                    <p class="service-desc">Strategic content planning that builds authority, drives engagement, and converts followers into customers. Blogs, reels, stories — we do it all.</p>
+                </div>
+                <div class="service-card reveal">
+                    <span class="service-number">06</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <h3 class="service-title">Analytics & Insights</h3>
+                    <p class="service-desc">Comprehensive reporting and analytics dashboards that give you clarity on what's working, what's not, and where to invest next.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== INSIGHTS ===================== -->
+    <section class="section insights-section" id="insights">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span class="section-tag reveal">Insights</span>
+                <h2 class="section-title reveal" style="margin: 0 auto;">Data that drives <em>decisions</em></h2>
+            </div>
+            <div class="insights-grid reveal-stagger">
+                <div class="insight-card reveal">
+                    <div class="insight-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 6l-9.5 9.5-5-5L1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </div>
+                    <div class="insight-value">
+                        <span class="insight-number" data-target="87">0</span><span class="insight-suffix">%</span>
+                    </div>
+                    <h3 class="insight-label">Client Retention Rate</h3>
+                    <p class="insight-desc">Our clients stay because we deliver results. 87% of businesses renew their contracts within the first year.</p>
+                    <div class="insight-bar">
+                        <div class="insight-bar-fill" data-width="87"></div>
+                    </div>
+                </div>
+                <div class="insight-card featured reveal">
+                    <div class="insight-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <div class="insight-value">
+                        <span class="insight-number" data-target="14">0</span><span class="insight-suffix"> Days</span>
+                    </div>
+                    <h3 class="insight-label">Average Time to First Result</h3>
+                    <p class="insight-desc">Most clients see measurable improvements within 14 days of onboarding. Speed is our competitive edge.</p>
+                    <div class="insight-bar">
+                        <div class="insight-bar-fill" data-width="70"></div>
+                    </div>
+                </div>
+                <div class="insight-card reveal">
+                    <div class="insight-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="insight-value">
+                        <span class="insight-number" data-target="3.2">0</span><span class="insight-suffix">x</span>
+                    </div>
+                    <h3 class="insight-label">Average ROAS</h3>
+                    <p class="insight-desc">For every ₹1 spent on our ad campaigns, clients earn ₹3.20 back on average. Profitable from day one.</p>
+                    <div class="insight-bar">
+                        <div class="insight-bar-fill" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="insight-card reveal">
+                    <div class="insight-icon-wrap">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="insight-value">
+                        <span class="insight-number" data-target="150">0</span><span class="insight-suffix">K+</span>
+                    </div>
+                    <h3 class="insight-label">Audiences Reached Monthly</h3>
+                    <p class="insight-desc">Our campaigns consistently reach over 150,000 targeted users every month across all client accounts.</p>
+                    <div class="insight-bar">
+                        <div class="insight-bar-fill" data-width="92"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="graph-3d-wrapper reveal">
+                <div class="interactive-graph-container">
+                    <div class="graph-header">
+                        <h3>Average Client Revenue Growth</h3>
+                        <span class="graph-badge">Live Trajectory</span>
+                    </div>
+                    <div class="graph-canvas-wrapper">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                <!-- 3D Pedestal Shadow -->
+                <div class="graph-pedestal"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PROCESS ===================== -->
+    <section class="section process" id="process">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span class="section-tag reveal">How It Works</span>
+                <h2 class="section-title reveal" style="margin: 0 auto;">Our proven <em>growth process</em></h2>
+            </div>
+            <div class="process-timeline">
+                <div class="process-line" id="processLine"></div>
+                <div class="process-step reveal">
+                    <div class="step-marker"><span class="step-number">01</span></div>
+                    <div>
+                        <h3 class="step-title">Discovery & Audit</h3>
+                        <p class="step-desc">We deep-dive into your business, competitors, and target audience. A comprehensive audit reveals untapped growth opportunities.</p>
+                    </div>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-marker"><span class="step-number">02</span></div>
+                    <div>
+                        <h3 class="step-title">Strategy Blueprint</h3>
+                        <p class="step-desc">Based on our findings, we craft a custom growth blueprint with clear KPIs, timelines, and creative direction tailored to your goals.</p>
+                    </div>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-marker"><span class="step-number">03</span></div>
+                    <div>
+                        <h3 class="step-title">Execute & Launch</h3>
+                        <p class="step-desc">Our team brings the strategy to life — building content, running campaigns, optimizing funnels, and driving traffic that converts.</p>
+                    </div>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-marker"><span class="step-number">04</span></div>
+                    <div>
+                        <h3 class="step-title">Optimize & Scale</h3>
+                        <p class="step-desc">We continuously analyze performance data, A/B test creatives, and scale what works to maximize your ROI month over month.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RESULTS / TESTIMONIALS ===================== -->
+    <section class="section" id="results">
+        <div class="container">
+            <span class="section-tag reveal">Results</span>
+            <h2 class="section-title reveal">Stories from businesses we've <em>scaled</em></h2>
+            <div class="testimonials-grid reveal-stagger">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RK</div>
+                        <div class="author-info">
+                            <span class="author-name">Rajesh Kumar</span>
+                            <span class="author-role">Founder, Kumar Electronics</span>
+                        </div>
+                    </div>
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">Viscera Revenue completely transformed our online presence. Within 3 months, our monthly revenue jumped by 180%. Their social media strategy was a game-changer for our electronics shop in Delhi.</p>
+                    <div class="testimonial-metric">
+                        <span class="metric-value">+180%</span>
+                        <span class="metric-label">Revenue growth in 3 months</span>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-author">
+                        <div class="author-avatar">PS</div>
+                        <div class="author-info">
+                            <span class="author-name">Priya Sharma</span>
+                            <span class="author-role">CEO, FreshBite Foods</span>
+                        </div>
+                    </div>
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">We were struggling to get orders online. After partnering with Viscera, our website and ad campaigns brought in 400+ orders in the first month alone. Truly exceptional work.</p>
+                    <div class="testimonial-metric">
+                        <span class="metric-value">400+</span>
+                        <span class="metric-label">Orders in first month</span>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AM</div>
+                        <div class="author-info">
+                            <span class="author-name">Amit Mehta</span>
+                            <span class="author-role">Owner, Mehta Fitness Studio</span>
+                        </div>
+                    </div>
+                    <span class="testimonial-quote">"</span>
+                    <p class="testimonial-text">Their team built us a stunning website and ran Instagram campaigns that filled every batch in our fitness studio. We went from 30 members to 200+ in under 6 months.</p>
+                    <div class="testimonial-metric">
+                        <span class="metric-value">6.7x</span>
+                        <span class="metric-label">Member growth</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <section class="marquee-section">
+        <div class="marquee">
+            <div class="marquee-track">
+                <span class="marquee-item">Revenue Growth</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Social Media</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Web Development</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Brand Strategy</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Performance Ads</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Content Creation</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Revenue Growth</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Social Media</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Web Development</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Brand Strategy</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Performance Ads</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item">Content Creation</span>
+                <span class="marquee-dot">◆</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== JOIN THE TEAM ===================== -->
+    <section class="section join-section" id="join">
+        <div class="container">
+            <div class="join-grid">
+                <div class="join-content reveal">
+                    <span class="section-tag">Careers</span>
+                    <h2 class="section-title">Join the <em>Viscera</em> team</h2>
+                    <p class="join-text">We're building the future of digital growth for Indian businesses — and we need passionate, creative, and driven people to do it.</p>
+                    <div class="join-perks">
+                        <div class="perk">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Flexible remote work</span>
+                        </div>
+                        <div class="perk">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Competitive compensation</span>
+                        </div>
+                        <div class="perk">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Growth & learning opportunities</span>
+                        </div>
+                        <div class="perk">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Work with top Indian brands</span>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary" id="openJoinModal">
+                        Apply Now
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div class="join-visual reveal">
+                    <div class="join-card">
+                        <div class="join-card-header">
+                            <span class="join-card-badge">Open Positions</span>
+                        </div>
+                        <div class="join-positions">
+                            <div class="position" onclick="document.getElementById('openJoinModal').click()">
+                                <div class="position-info">
+                                    <h4>Social Media Manager</h4>
+                                    <span>Remote · Full-time</span>
+                                </div>
+                                <span class="position-tag">Active</span>
+                            </div>
+                            <div class="position" onclick="document.getElementById('openJoinModal').click()">
+                                <div class="position-info">
+                                    <h4>Web Developer</h4>
+                                    <span>Remote · Full-time</span>
+                                </div>
+                                <span class="position-tag">Active</span>
+                            </div>
+                            <div class="position" onclick="document.getElementById('openJoinModal').click()">
+                                <div class="position-info">
+                                    <h4>Content Creator</h4>
+                                    <span>Remote · Part-time</span>
+                                </div>
+                                <span class="position-tag">Active</span>
+                            </div>
+                            <div class="position">
+                                <div class="position-info">
+                                    <h4>Graphic Designer</h4>
+                                    <span>Remote · Freelance</span>
+                                </div>
+                                <span class="position-tag soon">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="reveal">
+                    <span class="section-tag">Get in Touch</span>
+                    <h2 class="section-title">Ready to <em>grow?</em></h2>
+                    <p class="contact-text">Tell us about your business and goals. We'll craft a custom growth strategy and get back to you within 24 hours.</p>
+                    <div class="contact-details">
+                        <a href="mailto:viscerarevenue@gmail.com" class="contact-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            viscerarevenue@gmail.com
+                        </a>
+                        <a href="https://instagram.com/viscerarevenue" target="_blank" class="contact-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                            @viscerarevenue
+                        </a>
+                        <a href="tel:+916005027331" class="contact-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            +91 60050 27331
+                        </a>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label class="form-label" for="contact-name">Full Name</label>
+                            <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contact-email">Email Address</label>
+                            <input type="email" id="contact-email" class="form-input" placeholder="you@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contact-service">Service Interested In</label>
+                            <select id="contact-service" class="form-input form-select" required>
+                                <option value="" disabled selected>Select a service</option>
+                                <option value="Social Media Management">Social Media Management</option>
+                                <option value="Website Development">Website Development</option>
+                                <option value="Performance Marketing">Performance Marketing</option>
+                                <option value="Brand Identity">Brand Identity Design</option>
+                                <option value="Content Strategy">Content Strategy</option>
+                                <option value="Full Growth Package">Full Growth Package</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contact-message">Tell us about your project</label>
+                            <textarea id="contact-message" class="form-input form-textarea" placeholder="Brief description of your goals..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full" id="contactSubmitBtn">
+                            Send Message
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </form>
+                    <div class="form-success" id="contactSuccess">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+                        <h3>Message Sent!</h3>
+                        <p>We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-top">
+                <a href="#" class="nav-logo">
+                    <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    Viscera Revenue
+                </a>
+                <div class="footer-socials">
+                    <a href="https://instagram.com/viscerarevenue" target="_blank" class="social-link" aria-label="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter/X">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M20 4l-6.768 6.768"/></svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Viscera Revenue. All rights reserved.</span>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#" id="footerJoinLink">Join Our Team</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

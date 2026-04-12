@@ -198,7 +198,7 @@ const revealObserver = new IntersectionObserver((entries) => {
             }
 
             // Handle chart initialization
-            if (entry.target.classList.contains('interactive-graph-container') && !entry.target.dataset.charted) {
+            if (entry.target.classList.contains('graph-3d-wrapper') && !entry.target.dataset.charted) {
                 entry.target.dataset.charted = 'true';
                 setTimeout(initChart, 300); // slight delay for smooth reveal
             }

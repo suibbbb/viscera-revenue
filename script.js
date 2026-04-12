@@ -593,6 +593,7 @@ $('#joinFormEl')?.addEventListener('submit', async (e) => {
 
     try {
         await sendEmail(EMAILJS_CONFIG.templates.joinTeam, {
+            to_email: 'viscerarevenue@gmail.com',
             subject: 'Join Team Application — Viscera Revenue',
             user_name: name,
             user_email: email,
@@ -635,6 +636,7 @@ $('#contactForm')?.addEventListener('submit', async (e) => {
 
     try {
         await sendEmail(EMAILJS_CONFIG.templates.contact, {
+            to_email: 'viscerarevenue@gmail.com',
             subject: `New Inquiry — ${service} — Viscera Revenue`,
             user_name: name,
             user_email: email,

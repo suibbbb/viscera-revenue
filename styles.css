@@ -1317,7 +1317,6 @@ a {
     position: relative;
     margin: 80px auto 40px;
     max-width: 900px;
-    perspective: 1200px;
     z-index: 10;
 }
 
@@ -1328,10 +1327,9 @@ a {
     padding: 30px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    transform: rotateX(15deg) rotateY(-10deg);
-    transform-style: preserve-3d;
+    transform: translateY(0);
     box-shadow: 
-        -20px 40px 60px rgba(0, 0, 0, 0.08),
+        0 20px 40px rgba(0, 0, 0, 0.08),
         inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
     will-change: transform;
@@ -1341,16 +1339,16 @@ a {
 }
 
 .interactive-graph-container:hover {
-    transform: rotateX(5deg) rotateY(0deg) translateY(-10px);
+    transform: translateY(-8px);
     box-shadow: 
-        0 40px 80px rgba(100, 110, 54, 0.15),
+        0 30px 60px rgba(100, 110, 54, 0.15),
         inset 0 0 0 1px rgba(255, 255, 255, 0.9);
     animation-play-state: paused;
 }
 
 @keyframes floatGraph {
-    0%, 100% { transform: rotateX(15deg) rotateY(-10deg) translateY(0); }
-    50% { transform: rotateX(15deg) rotateY(-10deg) translateY(-15px); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
 }
 
 .graph-header {
@@ -1358,7 +1356,6 @@ a {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    transform: translateZ(40px);
 }
 
 .graph-header h3 {
@@ -1376,14 +1373,12 @@ a {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 4px 12px rgba(100, 110, 54, 0.1);
 }
 
 .graph-canvas-wrapper {
     position: relative;
     height: 350px;
     width: 100%;
-    transform: translateZ(50px);
 }
 
 .graph-pedestal {

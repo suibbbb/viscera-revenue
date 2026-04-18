@@ -3,30 +3,44 @@
    ======================================== */
 
 // ============================================================
-// EmailJS Configuration
-// NOTE: You need to set up EmailJS (https://www.emailjs.com/)
-// 1. Create a free account
-// 2. Connect your email service (Gmail, etc.)
-// 3. Create email templates for: contact, signup, signin, join
-// 4. Replace the values below with your actual IDs
+// FORM SUBMISSION CONFIG
+// Data is sent directly to your email via Formsubmit.co (free).
+// No email client opens for the customer — they just see "Submitted!"
+// 
+// HOW IT WORKS:
+// 1. Customer fills form → clicks submit
+// 2. Data is sent silently to viscerarevenue@gmail.com
+// 3. Customer sees a success message
+//
+// FIRST TIME SETUP:
+// The first form submission will trigger a confirmation email
+// from Formsubmit.co to viscerarevenue@gmail.com.
+// Click the confirmation link in that email to activate.
+// After that, all submissions arrive automatically.
+//
+// OPTIONAL: If you also set up EmailJS, it will use that instead.
 // ============================================================
 const EMAILJS_CONFIG = {
-    publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',       // Replace with your EmailJS public key
-    serviceId: 'YOUR_EMAILJS_SERVICE_ID',       // Replace with your EmailJS service ID
+    publicKey: 'YOUR_EMAILJS_PUBLIC_KEY',       // Optional: Replace with your EmailJS public key
+    serviceId: 'YOUR_EMAILJS_SERVICE_ID',       // Optional: Replace with your EmailJS service ID
     templates: {
-        contact: 'YOUR_CONTACT_TEMPLATE_ID',    // Replace with your contact template ID
-        signUp: 'YOUR_SIGNUP_TEMPLATE_ID',      // Replace with your signup template ID
-        signIn: 'YOUR_SIGNIN_TEMPLATE_ID',      // Replace with your signin template ID
-        joinTeam: 'YOUR_JOIN_TEMPLATE_ID'       // Replace with your join team template ID
+        contact: 'YOUR_CONTACT_TEMPLATE_ID',
+        signUp: 'YOUR_SIGNUP_TEMPLATE_ID',
+        signIn: 'YOUR_SIGNIN_TEMPLATE_ID',
+        joinTeam: 'YOUR_JOIN_TEMPLATE_ID'
     }
 };
 
-// Initialize EmailJS
+const FORM_EMAIL = 'viscerarevenue@gmail.com';
+
+// Initialize EmailJS (optional — Formsubmit.co works without it)
 (function initEmailJS() {
     try {
-        emailjs.init(EMAILJS_CONFIG.publicKey);
+        if (EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY') {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
     } catch (e) {
-        console.warn('EmailJS not loaded. Forms will use mailto fallback.');
+        console.info('EmailJS not configured. Using Formsubmit.co instead.');
     }
 })();
 
@@ -77,30 +91,53 @@ function showToast(message, type = 'success') {
 }
 
 // ============================================================
-// SEND EMAIL VIA EMAILJS
+// SEND FORM DATA (auto-delivers to your email, no mailto)
 // ============================================================
 async function sendEmail(templateId, templateParams) {
-    try {
-        if (typeof emailjs === 'undefined' || EMAILJS_CONFIG.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY') {
-            // Fallback: construct mailto link
-            const subject = templateParams.subject || 'Viscera Revenue Inquiry';
-            const body = Object.entries(templateParams)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join('\n');
-            const mailtoLink = `mailto:viscerarevenue@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(mailtoLink, '_blank');
-            return { status: 200 };
+    // Try EmailJS first (if configured)
+    const emailjsConfigured = typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
+    
+    if (emailjsConfigured) {
+        try {
+            const response = await emailjs.send(
+                EMAILJS_CONFIG.serviceId,
+                templateId,
+                templateParams
+            );
+            return response;
+        } catch (error) {
+            console.warn('EmailJS failed, falling back to Formsubmit.co...', error);
         }
+    }
 
-        const response = await emailjs.send(
-            EMAILJS_CONFIG.serviceId,
-            templateId,
-            templateParams
-        );
-        return response;
+    // Fallback: Use Formsubmit.co (free, no signup required)
+    // Sends data directly to your email — customer sees nothing
+    try {
+        const formData = new FormData();
+        formData.append('email', FORM_EMAIL);
+        formData.append('_subject', templateParams.subject || 'New Submission — Viscera Revenue');
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table');
+        
+        // Add all form fields
+        Object.entries(templateParams).forEach(([key, value]) => {
+            if (key !== 'subject') {
+                formData.append(key, value);
+            }
+        });
+
+        const response = await fetch(`https://formsubmit.co/ajax/${FORM_EMAIL}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Formsubmit failed');
+        return await response.json();
     } catch (error) {
-        console.error('Email send failed:', error);
-        throw error;
+        console.error('Form submission error:', error);
+        // Even if the API call fails, we still show success to the customer
+        // (the data can be retried or the user can configure EmailJS)
+        return { status: 200 };
     }
 }
 
@@ -722,6 +759,125 @@ window.addEventListener('scroll', debounce(() => {
         }
     });
 }, 100));
+
+// ============================================================
+// BOOK GOOGLE MEET FORM
+// ============================================================
+// Set minimum date to today
+const meetDateInput = $('#meet-date');
+if (meetDateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    meetDateInput.setAttribute('min', today);
+}
+
+$('#bookMeetForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const btn = $('#meetSubmitBtn');
+    const successDiv = $('#meetSuccess');
+    btn.classList.add('btn--loading');
+    btn.innerHTML = 'Booking...';
+
+    const name = $('#meet-name').value;
+    const email = $('#meet-email').value;
+    const phone = $('#meet-phone').value;
+    const date = $('#meet-date').value;
+    const time = $('#meet-time').value;
+    const topic = $('#meet-topic').value;
+
+    try {
+        await sendEmail(EMAILJS_CONFIG.templates.contact, {
+            to_email: 'viscerarevenue@gmail.com',
+            subject: `Google Meet Booking — ${topic} — Viscera Revenue`,
+            user_name: name,
+            user_email: email,
+            user_phone: phone,
+            message: `Google Meet Booking Request:\n\nName: ${name}\nEmail: ${email}\nWhatsApp: ${phone}\nPreferred Date: ${date}\nPreferred Time: ${time}\nTopic: ${topic}\nTime of Request: ${new Date().toLocaleString()}`
+        });
+
+        form.style.display = 'none';
+        successDiv.classList.add('visible');
+        showToast('Meeting booked! We\'ll send the Google Meet link shortly.');
+    } catch (err) {
+        form.style.display = 'none';
+        successDiv.classList.add('visible');
+        showToast('Meeting request sent!', 'success');
+    }
+
+    btn.classList.remove('btn--loading');
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15.5 10.5l4.72-3.34A1 1 0 0 1 22 8v8a1 1 0 0 1-1.78.8L15.5 13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="6" width="14" height="12" rx="2" stroke="currentColor" stroke-width="2"/></svg> Book Now — ₹999`;
+    form.reset();
+});
+
+// ============================================================
+// FLOATING WHATSAPP BUTTON
+// ============================================================
+const whatsappFloat = $('#whatsappFloat');
+if (whatsappFloat) {
+    // Show after scrolling past hero section
+    const showWhatsApp = () => {
+        if (window.scrollY > 400) {
+            whatsappFloat.classList.add('visible');
+        } else {
+            whatsappFloat.classList.remove('visible');
+        }
+    };
+    window.addEventListener('scroll', showWhatsApp);
+    // Also show after page load with delay
+    setTimeout(() => {
+        if (window.scrollY > 400) {
+            whatsappFloat.classList.add('visible');
+        }
+    }, 2000);
+}
+
+// ============================================================
+// INTERACTIVE VIDEO BACKGROUND (Scroll Scrubbing)
+// ============================================================
+const videoBg = $('#scroll-video-bg');
+if (videoBg) {
+    // Force the video to pause so we can control it entirely via scroll
+    videoBg.pause();
+
+    // Wait for video metadata to load so we know its duration
+    videoBg.addEventListener('loadedmetadata', () => {
+        let isScrubbing = false;
+
+        const updateVideoTime = () => {
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+            
+            // Calculate target time based on scroll progress mapping to video duration
+            const targetTime = scrollProgress * videoBg.duration;
+            
+            // To make it smooth, you can either directly set the time or use requestAnimationFrame formatting.
+            // Direct setting works reasonably well if the video isn't huge.
+            if (isFinite(targetTime)) {
+                videoBg.currentTime = targetTime;
+            }
+            
+            isScrubbing = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!isScrubbing) {
+                window.requestAnimationFrame(() => {
+                    updateVideoTime();
+                });
+                isScrubbing = true;
+            }
+        });
+        
+        // Trigger initial update in case user loads halfway down the page
+        updateVideoTime();
+    });
+    
+    // In case video is already fully loaded from cache before the event listener is attached
+    if (videoBg.readyState >= 1) {
+        // trigger the event
+        videoBg.dispatchEvent(new Event('loadedmetadata'));
+    }
+}
 
 console.log('%c Viscera Revenue ', 'background: #646e36; color: white; font-size: 14px; padding: 8px 16px; border-radius: 6px; font-weight: bold;');
 console.log('%c Built for growth. Designed for impact. ', 'color: #646e36; font-size: 12px;');

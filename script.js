@@ -259,8 +259,8 @@ function initChart() {
     
     // Create a gradient for the line
     const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(100, 110, 54, 0.4)');
-    gradient.addColorStop(1, 'rgba(100, 110, 54, 0.0)');
+    gradient.addColorStop(0, 'rgba(156, 165, 100, 0.4)');
+    gradient.addColorStop(1, 'rgba(156, 165, 100, 0.0)');
 
     // Custom plugin for 3D glow shadow under the line
     const shadowPlugin = {
@@ -285,11 +285,11 @@ function initChart() {
             datasets: [{
                 label: 'Revenue Growth (%)',
                 data: [0, 15, 45, 80, 135, 210],
-                borderColor: '#646e36',
+                borderColor: '#9ca564',
                 backgroundColor: gradient,
                 borderWidth: 5,
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#646e36',
+                pointBackgroundColor: '#1a1e12',
+                pointBorderColor: '#9ca564',
                 pointBorderWidth: 3,
                 pointRadius: 6,
                 pointHoverRadius: 8,
@@ -306,7 +306,7 @@ function initChart() {
                     display: false
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(26, 30, 18, 0.9)',
+                    backgroundColor: 'rgba(10, 12, 8, 0.95)',
                     padding: 12,
                     titleFont: { family: 'Inter', size: 13, weight: 'normal' },
                     bodyFont: { family: 'Inter', size: 14, weight: 'bold' },
@@ -322,12 +322,12 @@ function initChart() {
                 y: {
                     beginAtZero: true,
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
+                        color: 'rgba(156, 165, 100, 0.1)',
                         drawBorder: false,
                     },
                     ticks: {
                         font: { family: 'Inter', size: 12 },
-                        color: '#78716c',
+                        color: 'rgba(245, 243, 238, 0.5)',
                         callback: function(value) {
                             return value + '%';
                         }
@@ -340,7 +340,7 @@ function initChart() {
                     },
                     ticks: {
                         font: { family: 'Inter', size: 12 },
-                        color: '#78716c'
+                        color: 'rgba(245, 243, 238, 0.5)'
                     }
                 }
             },

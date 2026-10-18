@@ -259,8 +259,8 @@ function initChart() {
     
     // Create a gradient for the line
     const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(156, 165, 100, 0.4)');
-    gradient.addColorStop(1, 'rgba(156, 165, 100, 0.0)');
+    gradient.addColorStop(0, 'rgba(196, 163, 90, 0.4)');
+    gradient.addColorStop(1, 'rgba(196, 163, 90, 0.0)');
 
     // Custom plugin for 3D glow shadow under the line
     const shadowPlugin = {
@@ -268,7 +268,7 @@ function initChart() {
         beforeDatasetDraw: (chart) => {
             const chartCtx = chart.ctx;
             chartCtx.save();
-            chartCtx.shadowColor = 'rgba(100, 110, 54, 0.5)';
+            chartCtx.shadowColor = 'rgba(196, 163, 90, 0.5)';
             chartCtx.shadowBlur = 20;
             chartCtx.shadowOffsetX = 0;
             chartCtx.shadowOffsetY = 12;
@@ -285,11 +285,11 @@ function initChart() {
             datasets: [{
                 label: 'Revenue Growth (%)',
                 data: [0, 15, 45, 80, 135, 210],
-                borderColor: '#9ca564',
+                borderColor: '#c4a35a',
                 backgroundColor: gradient,
                 borderWidth: 5,
-                pointBackgroundColor: '#1a1e12',
-                pointBorderColor: '#9ca564',
+                pointBackgroundColor: '#1a1410',
+                pointBorderColor: '#c4a35a',
                 pointBorderWidth: 3,
                 pointRadius: 6,
                 pointHoverRadius: 8,
@@ -322,7 +322,7 @@ function initChart() {
                 y: {
                     beginAtZero: true,
                     grid: {
-                        color: 'rgba(156, 165, 100, 0.1)',
+                        color: 'rgba(196, 163, 90, 0.1)',
                         drawBorder: false,
                     },
                     ticks: {
@@ -879,5 +879,5 @@ if (videoBg) {
     }
 }
 
-console.log('%c Viscera Revenue ', 'background: #646e36; color: white; font-size: 14px; padding: 8px 16px; border-radius: 6px; font-weight: bold;');
-console.log('%c Built for growth. Designed for impact. ', 'color: #646e36; font-size: 12px;');
+console.log('%c Viscera Revenue ', 'background: #8b2500; color: white; font-size: 14px; padding: 8px 16px; border-radius: 6px; font-weight: bold;');
+console.log('%c Built for growth. Designed for impact. ', 'color: #c4a35a; font-size: 12px;');
